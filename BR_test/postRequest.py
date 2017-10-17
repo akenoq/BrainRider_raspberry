@@ -4,6 +4,7 @@ import requests
 import time
 
 url = 'http://localhost:5555/datawriter'
+# url = 'https://brainrider.herokuapp.com/datawriter'
 
 i = 0
 while True:
