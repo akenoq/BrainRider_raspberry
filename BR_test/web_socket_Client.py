@@ -18,7 +18,8 @@ class MyClientProtocol(WebSocketClientProtocol):
 
         # start sending messages every second ..
         while True:
-            self.sendMessage(u"Hello, world!".encode('utf8'))
+            data = input(">>")
+            self.sendMessage(data.encode('utf8'))
             # self.sendMessage(b"\x00\x01\x03\x04", isBinary=True)
             await asyncio.sleep(1)
 
