@@ -7,11 +7,11 @@ import time
 import socket
 import logging
 
-# version 3 : работает с socketServer.py
+# version 3 : работает с socket_Server.py
 class BrainClient:
     def __init__(self):
         self.host = 'localhost'
-        self.port = 9090
+        self.port = 8081
         self.sock = socket.socket()
         self.sock.connect((self.host, self.port))
         self.data = "111"
@@ -19,8 +19,8 @@ class BrainClient:
     # send data to port
     def send_data(self, message):
         self.sock.send(message.encode())
-        self.data = self.sock.recv(1024).decode()
-        print('Received from server: ' + self.data)
+        self.data = self.sock.recv(1024)
+        print('Received from server: ' + self.data.decode())
 
 if __name__ == '__main__':
 
@@ -38,7 +38,7 @@ if __name__ == '__main__':
             print('closed')
             break
 
-# version 2 : работает с socketServer.py
+# version 2 : работает с socket_Server.py
 # def Main():
 #
 #     my_socket = socket.socket()

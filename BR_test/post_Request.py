@@ -16,6 +16,6 @@ while True:
         "data": course
     }
 
-    req = requests.post(url, json = data)
+    req = requests.post(url, json=data)
 
     time.sleep(15)
