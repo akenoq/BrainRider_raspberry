@@ -1,23 +1,20 @@
 import asyncio
 
-from autobahn.asyncio.websocket import WebSocketClientProtocol, WebSocketClientFactory
-# https://github.com/crossbario/autobahn-python/blob/master/examples/asyncio/websocket/echo/client_coroutines.py
-# try:
-#     import asyncio
-# except ImportError:
-#     import trollius as asyncio
+from autobahn.asyncio.websocket import WebSocketServerProtocol, \
+    WebSocketServerFactory
 
 
-class MyClientProtocol(WebSocketClientProtocol):
+class MyServerProtocol(WebSocketServerProtocol):
 
-    def onConnect(self, response):
-        print("Server connected: {0}".format(response.peer))
+    def onConnect(self, request):
+        print("Client connecting: {0}".format(request.peer))
 
     async def onOpen(self):
         print("WebSocket connection open.")
-
+        isBinary = True
         # start sending messages every second ..
         while True:
+            # read from keyboard (_W, _A, _S, _D, _WA)
             data = input(">>")
             self.sendMessage(data.encode('utf8'))
             # self.sendMessage(b"\x00\x01\x03\x04", isBinary=True)
@@ -34,12 +31,19 @@ class MyClientProtocol(WebSocketClientProtocol):
 
 
 if __name__ == '__main__':
+    import asyncio
 
-    factory = WebSocketClientFactory(u"ws://node-ws-server-3d.eu-gb.mybluemix.net:80")
-    factory.protocol = MyClientProtocol
+    factory = WebSocketServerFactory(u"ws://127.0.0.1:9000")
+    factory.protocol = MyServerProtocol
 
     loop = asyncio.get_event_loop()
-    coro = loop.create_connection(factory, 'node-ws-server-3d.eu-gb.mybluemix.net', 80)
-    loop.run_until_complete(coro)
-    loop.run_forever()
-    loop.close()
+    coro = loop.create_server(factory, '0.0.0.0', 9000)
+    server = loop.run_until_complete(coro)
+
+    try:
+        loop.run_forever()
+    except KeyboardInterrupt:
+        pass
+    finally:
+        server.close()
+        loop.close()
