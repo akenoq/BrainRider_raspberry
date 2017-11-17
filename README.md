@@ -14,3 +14,8 @@ socket_Client.py, socket_Server.py
 Так как работаем с websocket-сервером на Nodejs
 То написан код, отпраляющий ws запросы и получающий ответы
 web_socket_Client.py
+
+### 1.0.3
+`python server_keyboard.py` => работает на port 9000
+
+В 3D-треначере его указать: `localhost:9000`
